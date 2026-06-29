@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f172a;
+    color: white;
+}
+
+/* CENTER */
+.details-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+/* CARD */
+.details-card {
+    display: flex;
+    gap: 40px;
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 20px;
+    width: 900px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+/* IMAGE */
+.image-box img {
+    width: 300px;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.image-box img:hover {
+    transform: scale(1.1);
+}
+
+/* INFO */
+.info-box {
+    flex: 1;
+}
+
+.brand {
+    color: #94a3b8;
+}
+
+.price {
+    font-size: 24px;
+    color: #22c55e;
+    margin: 10px 0;
+}
+
+.desc {
+    color: #cbd5e1;
+}
+
+/* SIZE */
+.sizes {
+    margin: 10px 0;
+}
+
+.size-box {
+    display: inline-block;
+    padding: 8px 14px;
+    border: 1px solid #475569;
+    border-radius: 10px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+/* ACTIVE SIZE */
+.size-box.active {
+    background: #00bcd4;
+    color: white;
+}
+
+/* BUTTONS */
+.buttons {
+    margin-top: 20px;
+}
+
+.add-btn {
+    padding: 10px 20px;
+    background: #00bcd4;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background: #0097a7;
+}
+
+.back-btn {
+    padding: 10px 20px;
+    background: #475569;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
