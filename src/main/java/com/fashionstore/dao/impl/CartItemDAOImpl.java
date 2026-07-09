@@ -32,6 +32,21 @@ public class CartItemDAOImpl implements CartItemDAO {
     private static final String CLEAR_CART_SQL =
             "DELETE FROM cart_items WHERE cart_id = ?";
 
+    private static final String GET_ITEM_BY_ID_SQL =
+            "SELECT * FROM cart_items WHERE cart_item_id = ?";
+
+    private static final String GET_ITEM_BY_CART_AND_VARIANT_SQL =
+            "SELECT * FROM cart_items WHERE cart_id = ? AND variant_id = ?";
+
+    private static final String UPDATE_QTY_BY_CART_VARIANT_SQL =
+            "UPDATE cart_items SET quantity = ? WHERE cart_id = ? AND variant_id = ?";
+
+    private static final String REMOVE_BY_CART_VARIANT_SQL =
+            "DELETE FROM cart_items WHERE cart_id = ? AND variant_id = ?";
+
+    private static final String COUNT_ITEMS_SQL =
+            "SELECT COUNT(*) FROM cart_items WHERE cart_id = ?";
+
     // ================= METHODS =================
 
     @Override
@@ -39,7 +54,7 @@ public class CartItemDAOImpl implements CartItemDAO {
         try (PreparedStatement ps = con.prepareStatement(ADD_CART_ITEM_SQL)) {
 
             ps.setInt(1, item.getCartId());
-            ps.setInt(2, item.getProductId());   // ✅ important
+            ps.setInt(2, item.getProductId());
             ps.setInt(3, item.getVariantId());
             ps.setInt(4, item.getQuantity());
 
@@ -114,6 +129,99 @@ public class CartItemDAOImpl implements CartItemDAO {
         return false;
     }
 
+    @Override
+    public boolean updateCartItemQuantity(int cartItemId, int quantity) {
+        return updateCartItem(cartItemId, quantity);
+    }
+
+    @Override
+    public boolean updateCartItemQuantityByCartAndVariant(int cartId, int variantId, int quantity) {
+        try (PreparedStatement ps = con.prepareStatement(UPDATE_QTY_BY_CART_VARIANT_SQL)) {
+
+            ps.setInt(1, quantity);
+            ps.setInt(2, cartId);
+            ps.setInt(3, variantId);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeCartItemByCartAndVariant(int cartId, int variantId) {
+        try (PreparedStatement ps = con.prepareStatement(REMOVE_BY_CART_VARIANT_SQL)) {
+
+            ps.setInt(1, cartId);
+            ps.setInt(2, variantId);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public CartItem getCartItemById(int cartItemId) {
+        try (PreparedStatement ps = con.prepareStatement(GET_ITEM_BY_ID_SQL)) {
+
+            ps.setInt(1, cartItemId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return mapCartItem(rs);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public CartItem getCartItemByCartIdAndVariantId(int cartId, int variantId) {
+        try (PreparedStatement ps = con.prepareStatement(GET_ITEM_BY_CART_AND_VARIANT_SQL)) {
+
+            ps.setInt(1, cartId);
+            ps.setInt(2, variantId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return mapCartItem(rs);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<CartItem> getCartItemsByCartId(int cartId) {
+        return getCartItems(cartId);
+    }
+
+    @Override
+    public int getCartItemCount(int cartId) {
+        try (PreparedStatement ps = con.prepareStatement(COUNT_ITEMS_SQL)) {
+
+            ps.setInt(1, cartId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     // ================= HELPER =================
 
     private CartItem mapCartItem(ResultSet rs) throws Exception {
@@ -127,46 +235,4 @@ public class CartItemDAOImpl implements CartItemDAO {
 
         return item;
     }
-
-	@Override
-	public boolean updateCartItemQuantity(int cartItemId, int quantity) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateCartItemQuantityByCartAndVariant(int cartId, int variantId, int quantity) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean removeCartItemByCartAndVariant(int cartId, int variantId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public CartItem getCartItemById(int cartItemId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public CartItem getCartItemByCartIdAndVariantId(int cartId, int variantId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<CartItem> getCartItemsByCartId(int cartId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getCartItemCount(int cartId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

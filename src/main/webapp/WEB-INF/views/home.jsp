@@ -67,7 +67,9 @@
         <div class="product-card">
 
             <!-- IMAGE -->
-            <img src="<%=request.getContextPath()%>/assets/images/sample.jpg" alt="product">
+            <a href="<%=request.getContextPath()%>/product-details?id=<%= p.getProductId() %>">
+                <img src="<%=request.getContextPath()%>/assets/images/sample.jpg" alt="product">
+            </a>
 
             <!-- INFO -->
             <div class="product-info">
@@ -75,7 +77,12 @@
                 <p class="brand"><%= p.getBrand() %></p>
                 <p class="price">₹ <%= p.getPrice() %></p>
 
-                <button class="btn">Add to Cart</button>
+                <form action="<%=request.getContextPath()%>/cart" method="post">
+                    <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="productId" value="<%= p.getProductId() %>">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="btn">Add to Cart</button>
+                </form>
             </div>
 
         </div>

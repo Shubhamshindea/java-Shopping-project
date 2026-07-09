@@ -1,5 +1,6 @@
 package com.fashionstore.dao.impl;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     private Connection con;
 
-    public OrderDAOImpl(Connection con2) {
+    public OrderDAOImpl() {
         con = DBConnection.getConnection();
     }
 
@@ -28,24 +29,30 @@ public class OrderDAOImpl implements OrderDAO {
         "SELECT * FROM orders WHERE order_id = ?";
 
     private static final String GET_ORDERS_BY_USER_ID_SQL =
-        "SELECT * FROM orders WHERE user_id = ?";
+        "SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC";
 
     private static final String GET_ALL_ORDERS_SQL =
-        "SELECT * FROM orders";
+        "SELECT * FROM orders ORDER BY created_at DESC";
 
     private static final String UPDATE_ORDER_STATUS_SQL =
         "UPDATE orders SET order_status = ? WHERE order_id = ?";
 
+    private static final String DELETE_ORDER_SQL =
+        "DELETE FROM orders WHERE order_id = ?";
+
     // ================= METHODS =================
 
-    @Override
-    public boolean addOrder(Order order) {
-        try (PreparedStatement ps = con.prepareStatement(INSERT_ORDER_SQL)) {
+    /**
+     * Insert an order and return the generated order_id (0 on failure).
+     */
+    public int createOrder(Order order) {
+        try (PreparedStatement ps = con.prepareStatement(
+                INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, order.getUserId());
             ps.setBigDecimal(2, order.getTotalAmount());
             ps.setString(3, order.getPaymentMethod());
-            ps.setString(4, order.getOrderStatus());
+            ps.setString(4, order.getOrderStatus() != null ? order.getOrderStatus() : "PENDING");
             ps.setString(5, order.getDeliveryName());
             ps.setString(6, order.getDeliveryPhone());
             ps.setString(7, order.getDeliveryAddressLine1());
@@ -55,12 +62,28 @@ public class OrderDAOImpl implements OrderDAO {
             ps.setString(11, order.getDeliveryPincode());
             ps.setString(12, order.getDeliveryCountry());
 
-            return ps.executeUpdate() > 0;
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                ResultSet keys = ps.getGeneratedKeys();
+                if (keys.next()) {
+                    return keys.getInt(1);
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
+    }
+
+    @Override
+    public boolean addOrder(Order order) {
+        return createOrder(order) > 0;
+    }
+
+    @Override
+    public boolean placeOrder(Order order) {
+        return addOrder(order);
     }
 
     @Override
@@ -132,6 +155,19 @@ public class OrderDAOImpl implements OrderDAO {
         return false;
     }
 
+    @Override
+    public boolean deleteOrder(int orderId) {
+        try (PreparedStatement ps = con.prepareStatement(DELETE_ORDER_SQL)) {
+
+            ps.setInt(1, orderId);
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     // ================= HELPER =================
 
     private Order mapOrder(ResultSet rs) throws Exception {
@@ -151,18 +187,10 @@ public class OrderDAOImpl implements OrderDAO {
         o.setDeliveryPincode(rs.getString("delivery_pincode"));
         o.setDeliveryCountry(rs.getString("delivery_country"));
 
+        try {
+            o.setCreatedAt(rs.getTimestamp("created_at"));
+        } catch (Exception ignored) {}
+
         return o;
     }
-
-	@Override
-	public boolean placeOrder(Order order) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean deleteOrder(int orderId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }
