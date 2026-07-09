@@ -55,7 +55,7 @@
                    class="product-link">
 
                     <div class="product-image-wrapper">
-                        <img src="<%=request.getContextPath()%>/assets/images/sample.jpg"
+                        <img src="<%=request.getContextPath()%>/<%=p.getImageUrl()%>"
                              alt="<%=p.getProductName()%>"
                              onerror="this.src='<%=request.getContextPath()%>/assets/images/sample.jpg'">
                         <div class="product-overlay">

@@ -67,7 +67,7 @@
 
                     <div class="cart-item-image">
                         <a href="<%=request.getContextPath()%>/product-details?id=<%=prod.getProductId()%>">
-                            <img src="<%=request.getContextPath()%>/assets/images/sample.jpg"
+                            <img src="<%=request.getContextPath()%>/<%=prod.getImageUrl()%>"
                                  alt="<%=prod.getProductName()%>">
                         </a>
                     </div>

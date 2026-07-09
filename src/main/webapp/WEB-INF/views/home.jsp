@@ -68,7 +68,7 @@
 
             <!-- IMAGE -->
             <a href="<%=request.getContextPath()%>/product-details?id=<%= p.getProductId() %>">
-                <img src="<%=request.getContextPath()%>/assets/images/sample.jpg" alt="product">
+                <img src="<%=request.getContextPath()%>/<%= p.getImageUrl() %>" alt="<%= p.getProductName() %>">
             </a>
 
             <!-- INFO -->

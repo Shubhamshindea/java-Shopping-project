@@ -137,14 +137,14 @@ INSERT INTO categories (category_name, description) VALUES
 -- Default product variant (required for cart_items FK)
 -- Products
 INSERT INTO products (category_id, product_name, brand, description, price, image_url, is_active) VALUES
-(1, 'Classic White Shirt', 'Levi''s', 'Premium cotton formal shirt, perfect for office wear.', 1299.00, 'assets/images/sample.jpg', TRUE),
-(1, 'Blue Denim Jeans', 'Wrangler', 'Slim fit denim jeans with comfortable stretch fabric.', 1899.00, 'assets/images/sample.jpg', TRUE),
-(2, 'Floral Kurti', 'Biba', 'Beautiful floral printed cotton kurti for festive occasions.', 999.00, 'assets/images/sample.jpg', TRUE),
-(2, 'Black Dress', 'W', 'Elegant black dress suitable for parties and events.', 2499.00, 'assets/images/sample.jpg', TRUE),
-(3, 'Kids T-Shirt Pack', 'H&M', 'Colorful 3-pack cotton t-shirts for children.', 699.00, 'assets/images/sample.jpg', TRUE),
-(4, 'Leather Belt', 'Woodland', 'Genuine leather belt with classic buckle design.', 549.00, 'assets/images/sample.jpg', TRUE),
-(1, 'Striped Polo Shirt', 'Arrow', 'Casual polo shirt for everyday wear.', 849.00, 'assets/images/sample.jpg', TRUE),
-(2, 'Salwar Kameez Set', 'Rangmanch', 'Traditional embroidered salwar kameez with dupatta.', 1599.00, 'assets/images/sample.jpg', TRUE);
+(1, 'Classic White Shirt', 'Levi''s', 'Premium cotton formal shirt, perfect for office wear.', 1299.00, 'assets/images/white_shirt.png', TRUE),
+(1, 'Blue Denim Jeans', 'Wrangler', 'Slim fit denim jeans with comfortable stretch fabric.', 1899.00, 'assets/images/blue_jeans.png', TRUE),
+(2, 'Floral Kurti', 'Biba', 'Beautiful floral printed cotton kurti for festive occasions.', 999.00, 'assets/images/floral_kurti.png', TRUE),
+(2, 'Black Dress', 'W', 'Elegant black dress suitable for parties and events.', 2499.00, 'assets/images/black_dress.png', TRUE),
+(3, 'Kids T-Shirt Pack', 'H&M', 'Colorful 3-pack cotton t-shirts for children.', 699.00, 'assets/images/kids_tshirt.png', TRUE),
+(4, 'Leather Belt', 'Woodland', 'Genuine leather belt with classic buckle design.', 549.00, 'assets/images/leather_belt.png', TRUE),
+(1, 'Striped Polo Shirt', 'Arrow', 'Casual polo shirt for everyday wear.', 849.00, 'assets/images/white_shirt.png', TRUE),
+(2, 'Salwar Kameez Set', 'Rangmanch', 'Traditional embroidered salwar kameez with dupatta.', 1599.00, 'assets/images/floral_kurti.png', TRUE);
 
 -- Product Variants (default variant for each product)
 INSERT INTO product_variants (product_id, size, color, stock_quantity) VALUES
