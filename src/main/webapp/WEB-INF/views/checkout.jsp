@@ -44,20 +44,16 @@
                 <h2>1. Shipping Information</h2>
                 
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" name="firstName" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" name="lastName" required>
+                    <div class="form-group full-width">
+                        <label>Full Name</label>
+                        <input type="text" name="deliveryName" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group full-width">
                         <label>Address</label>
-                        <input type="text" name="address" required>
+                        <input type="text" name="addressLine1" required>
                     </div>
                 </div>
 
@@ -68,14 +64,14 @@
                     </div>
                     <div class="form-group">
                         <label>Postal Code</label>
-                        <input type="text" name="postalCode" required>
+                        <input type="text" name="pincode" required>
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label>Phone Number</label>
-                        <input type="tel" name="phone" required>
+                        <input type="tel" name="deliveryPhone" required>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,7 @@
               method="get">
             <input type="text" name="keyword"
                    placeholder="Search for premium fashion..." />
-            <button type="submit">🔍</button>
+            <button type="submit">Search</button>
         </form>
 
         <!-- NAV LINKS -->
