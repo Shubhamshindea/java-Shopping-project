@@ -7,7 +7,7 @@
         <!-- LOGO -->
         <div class="logo">
             <a href="<%=request.getContextPath()%>/home">
-                Fashion<span>Store</span>
+                Trend<span>Cart</span>
             </a>
         </div>
 
@@ -27,7 +27,7 @@
 
             <!-- CART WITH COUNT -->
             <a href="<%=request.getContextPath()%>/cart" class="cart-link">
-                <span class="cart-icon">🛒</span> Cart 
+                Cart 
                 <span class="cart-count">0</span>
             </a>
 

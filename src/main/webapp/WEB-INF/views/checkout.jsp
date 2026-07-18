@@ -85,20 +85,32 @@
                 
                 <div class="payment-options">
                     <label class="payment-option">
-                        <input type="radio" name="paymentMethod" value="CREDIT_CARD" checked>
+                        <input type="radio" name="paymentMethod" value="CREDIT_CARD" checked onchange="toggleQR(false)">
                         <div class="payment-card">💳 Credit Card</div>
                     </label>
 
                     <label class="payment-option">
-                        <input type="radio" name="paymentMethod" value="UPI">
+                        <input type="radio" name="paymentMethod" value="UPI" onchange="toggleQR(true)">
                         <div class="payment-card">📱 UPI</div>
                     </label>
 
                     <label class="payment-option">
-                        <input type="radio" name="paymentMethod" value="COD">
+                        <input type="radio" name="paymentMethod" value="COD" onchange="toggleQR(false)">
                         <div class="payment-card">💵 Cash on Delivery</div>
                     </label>
                 </div>
+
+                <div id="upi-qr-section" style="display: none; text-align: center; margin-top: 24px; padding: 20px; border: 1px dashed var(--color-primary); border-radius: var(--radius-md);">
+                    <h3 style="margin-bottom: 12px; color: var(--color-primary);">Scan to Pay</h3>
+                    <img src="<%=request.getContextPath()%>/assets/images/upi_qr.jpg" alt="UPI QR Code" style="max-width: 200px; border-radius: 8px; margin: 0 auto;">
+                    <p style="margin-top: 12px; font-size: 14px; color: var(--color-text-muted);">Please scan the QR code using PhonePe, GPay, or Paytm.</p>
+                </div>
+                
+                <script>
+                    function toggleQR(show) {
+                        document.getElementById('upi-qr-section').style.display = show ? 'block' : 'none';
+                    }
+                </script>
             </div>
 
         </div>

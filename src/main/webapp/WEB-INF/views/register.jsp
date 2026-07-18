@@ -31,7 +31,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" name="fullName" placeholder="John Doe" required>
+                    <input type="text" id="fullName" name="name" placeholder="John Doe" required>
                 </div>
                 
                 <div class="form-group">
