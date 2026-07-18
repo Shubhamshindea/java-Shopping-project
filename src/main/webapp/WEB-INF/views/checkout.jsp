@@ -1,163 +1,149 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="java.util.*, com.fashionstore.model.CartItem, com.fashionstore.model.Product, com.fashionstore.model.User" %>
+<%@ page import="java.util.*, com.fashionstore.model.CartItem, com.fashionstore.model.Product" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - Fashion Store</title>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/theme.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/style.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/checkout.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <jsp:include page="partials/navbar.jsp" />
 
 <%
-    List<CartItem> cartItems    = (List<CartItem>) request.getAttribute("cartItems");
-    List<Product>  cartProducts = (List<Product>)  request.getAttribute("cartProducts");
-    double totalPrice = request.getAttribute("totalPrice") != null
-                        ? (double) request.getAttribute("totalPrice") : 0;
-    User user = (User) session.getAttribute("user");
+    List<CartItem> cartItems = (List<CartItem>) request.getAttribute("cartItems");
+    List<Product> cartProducts = (List<Product>) request.getAttribute("cartProducts");
+    double totalPrice = 0;
+    if (request.getAttribute("totalPrice") != null) {
+        totalPrice = (double) request.getAttribute("totalPrice");
+    }
     String errorMsg = (String) request.getAttribute("error");
 %>
 
-<div class="checkout-page">
-    <h1 class="checkout-title">🛍️ Checkout</h1>
+<div class="page-container checkout-page">
+
+    <div class="checkout-header">
+        <h1>Secure Checkout</h1>
+    </div>
 
     <% if (errorMsg != null) { %>
-        <div class="alert alert-error">❌ <%=errorMsg%></div>
+        <div class="alert-error">❌ <%= errorMsg %></div>
     <% } %>
 
-    <div class="checkout-layout">
+    <form action="<%=request.getContextPath()%>/checkout" method="post" class="checkout-layout">
 
-        <!-- ===== DELIVERY FORM ===== -->
-        <div class="checkout-form-section">
-            <h2>Delivery Information</h2>
-
-            <form action="<%=request.getContextPath()%>/checkout" method="post" id="checkout-form">
-
+        <!-- CHECKOUT FORM (LEFT) -->
+        <div class="checkout-form-container">
+            
+            <div class="form-section">
+                <h2>1. Shipping Information</h2>
+                
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Full Name *</label>
-                        <input type="text" name="deliveryName"
-                               value="<%=user != null && user.getFullName() != null ? user.getFullName() : ""%>"
-                               placeholder="John Doe" required>
+                        <label>First Name</label>
+                        <input type="text" name="firstName" required>
                     </div>
                     <div class="form-group">
-                        <label>Phone Number *</label>
-                        <input type="tel" name="deliveryPhone"
-                               value="<%=user != null && user.getPhone() != null ? user.getPhone() : ""%>"
-                               placeholder="+91 98765 43210" required>
+                        <label>Last Name</label>
+                        <input type="text" name="lastName" required>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Address Line 1 *</label>
-                    <input type="text" name="addressLine1" placeholder="House No., Street Name" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Address Line 2</label>
-                    <input type="text" name="addressLine2" placeholder="Apartment, Colony (Optional)">
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>City *</label>
-                        <input type="text" name="city" placeholder="Mumbai" required>
-                    </div>
-                    <div class="form-group">
-                        <label>State *</label>
-                        <input type="text" name="state" placeholder="Maharashtra" required>
+                    <div class="form-group full-width">
+                        <label>Address</label>
+                        <input type="text" name="address" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Pincode *</label>
-                        <input type="text" name="pincode" placeholder="400001"
-                               maxlength="6" pattern="[0-9]{6}" required>
+                        <label>City</label>
+                        <input type="text" name="city" required>
                     </div>
                     <div class="form-group">
-                        <label>Country</label>
-                        <input type="text" name="country" value="India">
+                        <label>Postal Code</label>
+                        <input type="text" name="postalCode" required>
                     </div>
                 </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                </div>
+            </div>
 
-                <h2 style="margin-top:30px;">Payment Method</h2>
-
+            <div class="form-section">
+                <h2>2. Payment Method</h2>
+                
                 <div class="payment-options">
                     <label class="payment-option">
-                        <input type="radio" name="paymentMethod" value="COD" checked>
-                        <div class="payment-card">
-                            <span class="payment-icon">💵</span>
-                            <span>Cash on Delivery</span>
-                        </div>
+                        <input type="radio" name="paymentMethod" value="CREDIT_CARD" checked>
+                        <div class="payment-card">💳 Credit Card</div>
                     </label>
+
                     <label class="payment-option">
                         <input type="radio" name="paymentMethod" value="UPI">
-                        <div class="payment-card">
-                            <span class="payment-icon">📱</span>
-                            <span>UPI</span>
-                        </div>
+                        <div class="payment-card">📱 UPI</div>
                     </label>
+
                     <label class="payment-option">
-                        <input type="radio" name="paymentMethod" value="CARD">
-                        <div class="payment-card">
-                            <span class="payment-icon">💳</span>
-                            <span>Credit / Debit Card</span>
-                        </div>
+                        <input type="radio" name="paymentMethod" value="COD">
+                        <div class="payment-card">💵 Cash on Delivery</div>
                     </label>
                 </div>
+            </div>
 
-            </form>
         </div>
 
-        <!-- ===== ORDER SUMMARY ===== -->
+        <!-- ORDER SUMMARY (RIGHT) -->
         <div class="checkout-summary">
             <h2>Order Summary</h2>
-
-            <div class="checkout-items">
-                <% if (cartItems != null) {
-                    for (int i = 0; i < cartItems.size(); i++) {
-                        CartItem item = cartItems.get(i);
-                        Product prod  = (cartProducts != null && i < cartProducts.size()) ? cartProducts.get(i) : null;
-                        if (prod == null) continue;
+            
+            <div class="summary-items">
+                <% 
+                    if (cartItems != null && cartProducts != null) {
+                        for (int i = 0; i < cartItems.size(); i++) {
+                            CartItem item = cartItems.get(i);
+                            Product prod = cartProducts.get(i);
+                            if (prod == null) continue;
                 %>
-                <div class="checkout-item">
-                    <span class="checkout-item-name"><%=prod.getProductName()%> × <%=item.getQuantity()%></span>
-                    <span class="checkout-item-price">₹ <%=Math.round(prod.getPrice().doubleValue() * item.getQuantity())%></span>
+                <div class="summary-item">
+                    <span class="item-name"><%=item.getQuantity()%>x <%=prod.getProductName()%></span>
+                    <span class="item-price">₹ <%=Math.round(prod.getPrice().doubleValue() * item.getQuantity())%></span>
                 </div>
-                <% } } %>
+                <%      }
+                    } 
+                %>
             </div>
 
-            <div class="checkout-divider"></div>
-
-            <div class="checkout-total-row">
-                <span>Subtotal</span>
-                <span>₹ <%=String.format("%.2f", totalPrice)%></span>
+            <div class="summary-totals">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>₹ <%=String.format("%.2f", totalPrice)%></span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span style="color: var(--color-success); font-weight:700;">FREE</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total</span>
+                    <span>₹ <%=String.format("%.2f", totalPrice)%></span>
+                </div>
             </div>
-            <div class="checkout-total-row">
-                <span>Shipping</span>
-                <span class="free-tag">FREE</span>
-            </div>
-            <div class="checkout-total-row grand-total">
-                <span>Total</span>
-                <span>₹ <%=String.format("%.2f", totalPrice)%></span>
-            </div>
 
-            <button type="submit" form="checkout-form" class="place-order-btn">
-                🎉 Place Order
-            </button>
-
-            <a href="<%=request.getContextPath()%>/cart" class="back-to-cart">← Back to Cart</a>
+            <button type="submit" class="place-order-btn">Place Order</button>
         </div>
 
-    </div>
+    </form>
+
 </div>
 
 <jsp:include page="partials/footer.jsp" />

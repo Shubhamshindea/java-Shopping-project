@@ -2,14 +2,14 @@
 <%@ page import="java.util.*, com.fashionstore.model.CartItem, com.fashionstore.model.Product" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart - Fashion Store</title>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/theme.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/style.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/cart.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -24,10 +24,10 @@
     }
 %>
 
-<div class="cart-page">
+<div class="page-container cart-page">
 
     <div class="cart-header">
-        <h1>🛒 Your Shopping Cart</h1>
+        <h1>Your Cart</h1>
         <a href="<%=request.getContextPath()%>/products" class="continue-btn">← Continue Shopping</a>
     </div>
 
@@ -67,23 +67,21 @@
 
                     <div class="cart-item-image">
                         <a href="<%=request.getContextPath()%>/product-details?id=<%=prod.getProductId()%>">
-                            <img src="<%=request.getContextPath()%>/<%=prod.getImageUrl()%>"
-                                 alt="<%=prod.getProductName()%>">
+                            <img src="<%=request.getContextPath()%>/<%= (prod.getImageUrl() != null && !prod.getImageUrl().isEmpty()) ? prod.getImageUrl() : "assets/images/sample.jpg" %>" alt="<%=prod.getProductName()%>">
                         </a>
                     </div>
 
                     <div class="cart-item-info">
-                        <h3><a href="<%=request.getContextPath()%>/product-details?id=<%=prod.getProductId()%>"><%=prod.getProductName()%></a></h3>
                         <p class="brand"><%=prod.getBrand()%></p>
-                        <p class="unit-price">₹ <%=prod.getPrice()%> each</p>
+                        <h3><a href="<%=request.getContextPath()%>/product-details?id=<%=prod.getProductId()%>"><%=prod.getProductName()%></a></h3>
+                        <p class="unit-price">₹ <%=prod.getPrice()%></p>
                     </div>
 
                     <!-- QUANTITY FORM -->
                     <div class="cart-item-qty">
-                        <form action="<%=request.getContextPath()%>/cart" method="post" class="qty-form">
+                        <form action="<%=request.getContextPath()%>/cart" method="post">
                             <input type="hidden" name="action" value="update">
                             <input type="hidden" name="cartItemId" value="<%=item.getCartItemId()%>">
-                            <label>Qty:</label>
                             <input type="number" name="quantity" value="<%=item.getQuantity()%>"
                                    min="1" max="99" class="qty-input">
                             <button type="submit" class="update-btn">Update</button>
@@ -96,13 +94,11 @@
                     </div>
 
                     <!-- REMOVE -->
-                    <div class="cart-item-remove">
-                        <form action="<%=request.getContextPath()%>/cart" method="post">
-                            <input type="hidden" name="action" value="remove">
-                            <input type="hidden" name="cartItemId" value="<%=item.getCartItemId()%>">
-                            <button type="submit" class="remove-btn">✕</button>
-                        </form>
-                    </div>
+                    <form action="<%=request.getContextPath()%>/cart" method="post" class="cart-item-remove">
+                        <input type="hidden" name="action" value="remove">
+                        <input type="hidden" name="cartItemId" value="<%=item.getCartItemId()%>">
+                        <button type="submit" class="remove-btn" title="Remove Item">✕</button>
+                    </form>
 
                 </div>
 
@@ -114,7 +110,7 @@
                 <h2>Order Summary</h2>
 
                 <div class="summary-row">
-                    <span>Items (<%=cartItems.size()%>)</span>
+                    <span>Subtotal (<%=cartItems.size()%> items)</span>
                     <span>₹ <%=String.format("%.2f", totalPrice)%></span>
                 </div>
                 <div class="summary-row">
@@ -127,10 +123,10 @@
                 </div>
 
                 <form action="<%=request.getContextPath()%>/checkout" method="get">
-                    <button type="submit" class="checkout-btn">Proceed to Checkout →</button>
+                    <button type="submit" class="checkout-btn">Proceed to Checkout</button>
                 </form>
 
-                <form action="<%=request.getContextPath()%>/cart" method="post" style="margin-top:10px;">
+                <form action="<%=request.getContextPath()%>/cart" method="post">
                     <input type="hidden" name="action" value="clear">
                     <button type="submit" class="clear-btn">Clear Cart</button>
                 </form>

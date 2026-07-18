@@ -2,108 +2,104 @@
 <%@ page import="java.util.*, com.fashionstore.model.Product, com.fashionstore.model.Category" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Fashion Store</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Store - Discover Your Style</title>
 
-    <!-- CSS -->
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/theme.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/style.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/home.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/style.css">
 </head>
 
 <body>
-<!-- NAVBAR -->
 <jsp:include page="partials/navbar.jsp" />
 
-<div class="container">
+<div class="page-container">
 
     <!-- HERO SECTION -->
     <div class="hero">
-        <h1>Discover Your Style</h1>
-        <p>Latest trends, best prices, fast delivery</p>
-        <a href="<%=request.getContextPath()%>/products" class="btn">Shop Now</a>
+        <div class="hero-content">
+            <h1>Elevate Your Wardrobe</h1>
+            <p>Discover the latest premium trends, curated just for you.</p>
+            <a href="<%=request.getContextPath()%>/products" class="btn-primary">Shop New Arrivals</a>
+        </div>
     </div>
 
-    <!-- ================= CATEGORIES ================= -->
-    <div class="categories">
-        <h2 class="section-title">Categories</h2>
+    <!-- CATEGORIES -->
+    <section class="categories-section">
+        <div class="section-header">
+            <h2 class="section-title">Shop by Category</h2>
+        </div>
 
         <div class="category-list">
-
-<%
-    List<Category> categories = (List<Category>) request.getAttribute("categories");
-
-    if (categories != null && !categories.isEmpty()) {
-        for (Category c : categories) {
-%>
-
-            <a href="<%=request.getContextPath()%>/products?categoryId=<%=c.getCategoryId()%>" 
-               class="category-btn">
-               <%= c.getCategoryName() %>
-            </a>
-
-<%
-        }
-    }
-%>
-
+            <%
+                List<Category> categories = (List<Category>) request.getAttribute("categories");
+                if (categories != null && !categories.isEmpty()) {
+                    for (Category c : categories) {
+            %>
+                <a href="<%=request.getContextPath()%>/products?categoryId=<%=c.getCategoryId()%>" 
+                   class="category-card">
+                   <%= c.getCategoryName() %>
+                </a>
+            <%
+                    }
+                }
+            %>
         </div>
-    </div>
+    </section>
 
-    <!-- ================= PRODUCTS ================= -->
-    <div class="products">
-        <h2 class="section-title">Trending Products</h2>
+    <!-- TRENDING PRODUCTS -->
+    <section class="trending-section">
+        <div class="section-header">
+            <h2 class="section-title">Trending Now</h2>
+            <a href="<%=request.getContextPath()%>/products" class="section-link">View All →</a>
+        </div>
 
         <div class="product-grid">
+            <%
+                List<Product> products = (List<Product>) request.getAttribute("products");
+                if (products != null && !products.isEmpty()) {
+                    for (Product p : products) {
+            %>
+            <div class="product-card">
+                
+                <a href="<%=request.getContextPath()%>/product-details?id=<%= p.getProductId() %>" class="product-image-container">
+                    <img src="<%=request.getContextPath()%>/<%= (p.getImageUrl() != null && !p.getImageUrl().isEmpty()) ? p.getImageUrl() : "assets/images/sample.jpg" %>" alt="<%= p.getProductName() %>">
+                </a>
 
-<%
-    List<Product> products = (List<Product>) request.getAttribute("products");
+                <div class="product-info">
+                    <div class="product-brand"><%= p.getBrand() %></div>
+                    <a href="<%=request.getContextPath()%>/product-details?id=<%= p.getProductId() %>">
+                        <h3 class="product-title"><%= p.getProductName() %></h3>
+                    </a>
+                    <div class="product-price">₹ <%= p.getPrice() %></div>
 
-    if (products != null && !products.isEmpty()) {
-        for (Product p : products) {
-%>
+                    <div class="product-actions">
+                        <form action="<%=request.getContextPath()%>/cart" method="post">
+                            <input type="hidden" name="action" value="add">
+                            <input type="hidden" name="productId" value="<%= p.getProductId() %>">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
 
-        <div class="product-card">
-
-            <!-- IMAGE -->
-            <a href="<%=request.getContextPath()%>/product-details?id=<%= p.getProductId() %>">
-                <img src="<%=request.getContextPath()%>/<%= p.getImageUrl() %>" alt="<%= p.getProductName() %>">
-            </a>
-
-            <!-- INFO -->
-            <div class="product-info">
-                <h3><%= p.getProductName() %></h3>
-                <p class="brand"><%= p.getBrand() %></p>
-                <p class="price">₹ <%= p.getPrice() %></p>
-
-                <form action="<%=request.getContextPath()%>/cart" method="post">
-                    <input type="hidden" name="action" value="add">
-                    <input type="hidden" name="productId" value="<%= p.getProductId() %>">
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="btn">Add to Cart</button>
-                </form>
             </div>
-
+            <%
+                    }
+                } else {
+            %>
+                <p style="color: var(--color-text-muted);">No trending products available right now.</p>
+            <%
+                }
+            %>
         </div>
-
-<%
-        }
-    } else {
-%>
-
-        <h3>No products available</h3>
-
-<%
-    }
-%>
-
-        </div>
-    </div>
+    </section>
 
 </div>
 
-<!-- FOOTER -->
 <jsp:include page="partials/footer.jsp" />
 
 </body>

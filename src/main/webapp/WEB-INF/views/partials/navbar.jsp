@@ -2,33 +2,33 @@
 <%@ page import="com.fashionstore.model.User" %>
 
 <header class="navbar">
-    <div class="container navbar-container">
+    <div class="navbar-container">
 
         <!-- LOGO -->
         <div class="logo">
-            <a href="<%=request.getContextPath()%>/home">Fashion Store</a>
+            <a href="<%=request.getContextPath()%>/home">
+                Fashion<span>Store</span>
+            </a>
         </div>
 
         <!-- SEARCH -->
         <form class="search-bar"
               action="<%=request.getContextPath()%>/products"
               method="get">
-
             <input type="text" name="keyword"
-                   placeholder="Search for fashion products..." />
-
-            <button type="submit">Search</button>
+                   placeholder="Search for premium fashion..." />
+            <button type="submit">🔍</button>
         </form>
 
         <!-- NAV LINKS -->
         <nav class="nav-links">
-
             <a href="<%=request.getContextPath()%>/home">Home</a>
-            <a href="<%=request.getContextPath()%>/products">Products</a>
+            <a href="<%=request.getContextPath()%>/products">Shop</a>
 
             <!-- CART WITH COUNT -->
             <a href="<%=request.getContextPath()%>/cart" class="cart-link">
-                Cart <span class="cart-count">0</span>
+                <span class="cart-icon">🛒</span> Cart 
+                <span class="cart-count">0</span>
             </a>
 
             <%
@@ -36,21 +36,19 @@
                 if (user != null) {
             %>
                 <span class="user-name">
-                    👤 <%= user.getFullName() %>
+                    <%= user.getFullName() %>
                 </span>
-
                 <a href="<%=request.getContextPath()%>/logout" class="logout-btn">
                     Logout
                 </a>
             <%
                 } else {
             %>
-                <a href="<%=request.getContextPath()%>/login">Login</a>
-                <a href="<%=request.getContextPath()%>/register">Register</a>
+                <a href="<%=request.getContextPath()%>/login" class="login-btn">Log In</a>
+                <a href="<%=request.getContextPath()%>/register" class="register-btn">Sign Up</a>
             <%
                 }
             %>
-
         </nav>
 
     </div>
