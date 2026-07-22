@@ -20,6 +20,7 @@ public class RegisterServlet extends HttpServlet {
 
         String name = req.getParameter("name");
         String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
         String password = req.getParameter("password");
 
         // 🔁 DUPLICATE CHECK
@@ -35,6 +36,7 @@ public class RegisterServlet extends HttpServlet {
         User user = new User();
         user.setFullName(name);
         user.setEmail(email);
+        user.setPhone(phone);
         user.setPassword(password);
 
         userDAO.registerUser(user);

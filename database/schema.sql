@@ -144,7 +144,11 @@ INSERT INTO products (category_id, product_name, brand, description, price, imag
 (3, 'Kids T-Shirt Pack', 'H&M', 'Colorful 3-pack cotton t-shirts for children.', 699.00, 'assets/images/kids_tshirt.png', TRUE),
 (4, 'Leather Belt', 'Woodland', 'Genuine leather belt with classic buckle design.', 549.00, 'assets/images/leather_belt.png', TRUE),
 (1, 'Striped Polo Shirt', 'Arrow', 'Casual polo shirt for everyday wear.', 849.00, 'assets/images/white_shirt.png', TRUE),
-(2, 'Salwar Kameez Set', 'Rangmanch', 'Traditional embroidered salwar kameez with dupatta.', 1599.00, 'assets/images/floral_kurti.png', TRUE);
+(2, 'Salwar Kameez Set', 'Rangmanch', 'Traditional embroidered salwar kameez with dupatta.', 1599.00, 'assets/images/floral_kurti.png', TRUE),
+(1, 'Men''s Casual Jacket', 'Puma', 'Comfortable and stylish casual jacket.', 2199.00, 'assets/images/sample.jpg', TRUE),
+(2, 'Designer Saree', 'FabIndia', 'Beautiful silk designer saree for weddings.', 4999.00, 'assets/images/sample.jpg', TRUE),
+(3, 'Kids Boy Suit', 'Allen Solly', 'Formal suit for boys.', 1499.00, 'assets/images/sample.jpg', TRUE),
+(4, 'Aviator Sunglasses', 'Ray-Ban', 'Classic aviator sunglasses with UV protection.', 3599.00, 'assets/images/sample.jpg', TRUE);
 
 -- Product Variants (default variant for each product)
 INSERT INTO product_variants (product_id, size, color, stock_quantity) VALUES
@@ -155,7 +159,11 @@ INSERT INTO product_variants (product_id, size, color, stock_quantity) VALUES
 (5, '5-6Y', 'Multi', 80),
 (6, '36', 'Brown', 45),
 (7, 'L', 'Navy', 35),
-(8, 'M', 'Orange', 25);
+(8, 'M', 'Orange', 25),
+(9, 'L', 'Black', 20),
+(10, 'Free', 'Red', 10),
+(11, 'S', 'Blue', 30),
+(12, 'Free', 'Silver', 50);
 
 -- Test User (password: test123)
 INSERT INTO users (full_name, email, phone, password) VALUES
